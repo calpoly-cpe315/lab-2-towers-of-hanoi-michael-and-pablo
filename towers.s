@@ -20,24 +20,43 @@ startstring:
     .global	towers
 towers:
    /* Save calllee-saved registers to stack */
+   stp x29, x30, [sp, -16]! //stack registers not sure if needed
+   stp x19, x20, [sp, -16]! //registers we will use (others we dont touch so no need push)
+   stp x21, x22, [sp, -16]!
    
    /* Save a copy of all 3 incoming parameters to callee-saved registers */
+   mov x19, x0 //numdisks
+   mov x20, x1 //start
+   mov x21, x2 //goal
+
+
 
 if:
    /* Compare numDisks with 2 or (numDisks - 2)*/
+   cmp x19, 2
    /* Check if less than, else branch to else */
+   b.ge else 
    
    /* set print function's start to incoming start */
+   mov x0, x20 //i am not sure if this is the start, but I think it is
    /* set print function's end to goal */
+   mov x1, x21
    /* call print function */
+   bl print //pretty sure this is how the call would go
    /* Set return register to 1 */
+   mov x0, #1
    /* branch to endif */
+   b endif
 else:
    /* Use a callee-saved varable for temp and set it to 6 */
+   mov x22, #6
    /* Subract start from temp and store to itself */
+   sub x22, x22, x20
    /* Subtract goal from temp and store to itself (temp = 6 - start - goal)*/
+   sub x22, x22, x21
 
    /* subtract 1 from original numDisks and store it to numDisks parameter */
+   sub x19, x19, #1
 
    /* Set end parameter as temp */
    /* Call towers function */
