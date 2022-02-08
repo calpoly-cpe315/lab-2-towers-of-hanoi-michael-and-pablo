@@ -1,7 +1,7 @@
 	.arch armv8-a
 	.text
 
-@ print function is complete, no modifications needed
+// print function is complete, no modifications needed
     .global	print
 print:
       stp    x29, x30, [sp, -16]! //Store FP, LR.
@@ -96,7 +96,7 @@ endif:
    /* Return from towers function */
    ret
 
-@ Function main is complete, no modifications needed
+// Function main is complete, no modifications needed
     .global	main
 main:
       stp    x29, x30, [sp, -32]!
