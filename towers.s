@@ -22,14 +22,15 @@ towers:
    /* Save calllee-saved registers to stack */
    stp x29, x30, [sp, -16]! //stack registers not sure if needed
    stp x19, x20, [sp, -16]! //registers we will use (others we dont touch so no need push)
-   stp x21, x22, [sp, -16]!
+   stp x21, x22, [sp, -16]! 
+   stp x23, x24, [sp, -16]!
    
    /* Save a copy of all 3 incoming parameters to callee-saved registers */
    mov x19, x0 //numdisks
    mov x20, x1 //start
    mov x21, x2 //goal
-
-
+   //  x22     //temp(peg)
+   //  x23     //steps
 
 if:
    /* Compare numDisks with 2 or (numDisks - 2)*/
@@ -56,26 +57,44 @@ else:
    sub x22, x22, x21
 
    /* subtract 1 from original numDisks and store it to numDisks parameter */
-   sub x19, x19, #1
+   sub x0, x19, #1
 
    /* Set end parameter as temp */
+   mov x2, x22
    /* Call towers function */
+   bl towers
    /* Save result to callee-saved register for total steps */
+   mov x23, x0
    /* Set numDiscs parameter to 1 */
+   mov x0, #1
    /* Set start parameter to original start */
+   mov x1, x20
    /* Set goal parameter to original goal */
+   mov x2, x21
    /* Call towers function */
+   bl towers
    /* Add result to total steps so far */
+   add x23, x23, x0
    
    /* Set numDisks parameter to original numDisks - 1 */
+   sub x0, x19, #1
    /* set start parameter to temp */
+   mov x1, x22
    /* set goal parameter to original goal */
+   mov x2, x21
    /* Call towers function */
+   bl towers
    /* Add result to total steps so far and save it to return register */
+   add x0, x23, x0
 
 endif:
    /* Restore Registers */
+   ldp x23, x24, [sp], 16
+   ldp x21, x22, [sp], 16
+   ldp x19, x20, [sp], 16
+   ldp x29, x30, [sp], 16
    /* Return from towers function */
+   ret
 
 @ Function main is complete, no modifications needed
     .global	main
