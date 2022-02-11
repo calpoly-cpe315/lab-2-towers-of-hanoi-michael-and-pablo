@@ -1,12 +1,12 @@
 # CPE 315 Lab 2 Towers of Hanoi
 Towers of Hanoi
 
-Add your name and project status here.
+Names: Michael Noon 
+       Pablo Gonzalez
 
-The ``towers.s`` file is what you will modifiy. There are comments
-to guide your implementation.
+Project Status: Complete
 
-The ``towers.cpp`` file is for your reference so you can see what your
-assembly language program is supposed to do.
+How to Run towers.s:
 
-Sample outputs are contained in the outputs directory.
+'gcc -g towers.s -o towersout'
+'./towersout'
