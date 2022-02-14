@@ -20,10 +20,11 @@ startstring:
     .global	towers
 towers:
    /* Save calllee-saved registers to stack */
-   stp x29, x30, [sp, -16]! //stack registers not sure if needed
-   stp x19, x20, [sp, -16]! //registers we will use (others we dont touch so no need push)
-   stp x21, x22, [sp, -16]! 
-   stp x23, x24, [sp, -16]!
+   stp x29, x30, [sp, -64]! 
+   add x29, sp, 0
+   stp x19, x20, [sp, 16]
+   stp x21, x22, [sp, 32] 
+   stp x23, x24, [sp, 48]
    
    /* Save a copy of all 3 incoming parameters to callee-saved registers */
    mov x19, x0 //numdisks
@@ -39,7 +40,7 @@ if:
    b.ge else 
    
    /* set print function's start to incoming start */
-   mov x0, x20 //i am not sure if this is the start, but I think it is
+   mov x0, x20 //start
    /* set print function's end to goal */
    mov x1, x21
    /* call print function */
@@ -89,10 +90,10 @@ else:
 
 endif:
    /* Restore Registers */
-   ldp x23, x24, [sp], 16
-   ldp x21, x22, [sp], 16
-   ldp x19, x20, [sp], 16
-   ldp x29, x30, [sp], 16
+   ldp x19, x20, [sp, 16]
+   ldp x21, x22, [sp, 32]
+   ldp x23, x24, [sp, 48]
+   ldp x29, x30, [sp], 64
    /* Return from towers function */
    ret
 
